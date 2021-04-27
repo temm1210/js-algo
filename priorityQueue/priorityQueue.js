@@ -18,6 +18,25 @@ class PriorityQueue {
     });
   };
 
+  pop = () => {
+    if (this.isEmpty()) {
+      return false;
+    }
+    let currentIndex = this.size() - 1;
+
+    const popedData = this._heap[0];
+
+    // 마지막 데이터랑 루트데이터를 체인지
+    this._swap(0, currentIndex);
+    // 마지막데이터 삭제
+    this._heap.pop();
+    // 새로 루트자리에 들어온 데이터를 heapify
+    this._heapifyDown();
+
+    return popedData;
+  };
+
+  // 새로들어온 데이터를 아래로 끌어내리면서 heapify
   _heapifyDown = () => {
     let currentIndex = 0;
 
@@ -42,6 +61,7 @@ class PriorityQueue {
     }
   };
 
+  // 새로들어온 데이터를 위로 끌어올리면서 heapify
   _heapifyUp = () => {
     let currentIndex = this.size() - 1;
 
@@ -67,31 +87,8 @@ class PriorityQueue {
 }
 
 const queue = new PriorityQueue();
-
 queue.insert(1, 40, 33, 20, 10, 2, 30, 6, 11, 22, 5);
-console.log("first:", queue._heap);
-queue.pop();
 
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
-queue.pop();
-console.log("after:", queue._heap);
+while (!queue.isEmpty()) {
+  console.log(queue.pop());
+}
