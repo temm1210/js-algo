@@ -18,7 +18,7 @@ class PriorityQueue {
     });
   };
 
-  _heapify = () => {
+  _heapifyUp = () => {
     let currentIndex = this.size() - 1;
 
     while (
