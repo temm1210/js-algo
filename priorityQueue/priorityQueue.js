@@ -14,8 +14,36 @@ class PriorityQueue {
   insert = (...datas) => {
     datas.forEach((data) => {
       this._heap.push(data);
-      this._heapify();
+      this._heapifyUp();
     });
+  };
+
+  _heapifyDown = () => {
+    let currentIndex = 0;
+
+    while (
+      this._heap[currentIndex] >= this._heap[this._leftIndex(currentIndex)] ||
+      this._heap[currentIndex] >= this._heap[this._rightIndex(currentIndex)]
+    ) {
+      let minDataIndex;
+
+      const leftIndex = this._leftIndex(currentIndex);
+      const rightIndex = this._rightIndex(currentIndex);
+
+      if (this._heap[leftIndex] <= this._heap[rightIndex]) {
+        minDataIndex = leftIndex;
+      } else {
+        minDataIndex = rightIndex;
+      }
+
+      // if (this._heap[currentIndex] <= this._heap[minDataIndex]) {
+      //   break;
+      // }
+
+      this._swap(minDataIndex, currentIndex);
+
+      currentIndex = minDataIndex;
+    }
   };
 
   _heapifyUp = () => {
@@ -39,11 +67,35 @@ class PriorityQueue {
   };
   _parentIndex = (childIndex) => Math.ceil(childIndex / 2) - 1;
   _leftIndex = (parentIndex) => 2 * parentIndex + 1;
-  _rightIndex = (parentIndex) => left(parentIndex) + 1;
+  _rightIndex = (parentIndex) => this._leftIndex(parentIndex) + 1;
 }
 
 const queue = new PriorityQueue();
 
-queue.insert(1, 40, 5, 20, 10, 2, 30, 6, 11, 22, 33);
+queue.insert(1, 40, 33, 20, 10, 2, 30, 6, 11, 22, 5);
+console.log("first:", queue._heap);
+queue.pop();
 
-// console.log("test:", queue._heap);
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
+queue.pop();
+console.log("after:", queue._heap);
