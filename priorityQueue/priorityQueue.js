@@ -28,6 +28,7 @@ class PriorityQueue {
 
     // 마지막 데이터랑 루트데이터를 체인지
     this._swap(0, currentIndex);
+
     // 마지막데이터 삭제
     this._heap.pop();
     // 새로 루트자리에 들어온 데이터를 heapify
@@ -36,16 +37,19 @@ class PriorityQueue {
     return popedData;
   };
 
+  replace = (targetKey, changedData) => {};
+
   // 새로들어온 데이터를 아래로 끌어내리면서 heapify
   _heapifyDown = () => {
     let currentIndex = 0;
 
     while (
+      // this._leftIndex(currentIndex) <= this.size() - 1 &&
+      // this._rightIndex(currentIndex) <= this.size() - 1 &&
       this._compare(this._leftIndex(currentIndex), currentIndex) ||
       this._compare(this._rightIndex(currentIndex), currentIndex)
     ) {
       let minDataIndex;
-
       const leftIndex = this._leftIndex(currentIndex);
       const rightIndex = this._rightIndex(currentIndex);
 
@@ -56,7 +60,6 @@ class PriorityQueue {
       }
 
       this._swap(minDataIndex, currentIndex);
-
       currentIndex = minDataIndex;
     }
   };
@@ -66,8 +69,7 @@ class PriorityQueue {
     let currentIndex = this.size() - 1;
 
     while (
-      this.size() !== 1 &&
-      !this.isEmpty() &&
+      // this.size() !== 1 &&
       currentIndex > 0 &&
       this._compare(currentIndex, this._parentIndex(currentIndex))
     ) {
@@ -76,7 +78,13 @@ class PriorityQueue {
     }
   };
 
-  _compare = (a, b) => this._comparator(this._heap[a], this._heap[b]);
+  _compare = (a, b) => {
+    return this._heap[a]
+      ? this._heap[b]
+        ? this._comparator(this._heap[a], this._heap[b])
+        : this._heap[a]
+      : 0;
+  };
 
   _swap = (a, b) => {
     [this._heap[a], this._heap[b]] = [this._heap[b], this._heap[a]];
@@ -86,8 +94,20 @@ class PriorityQueue {
   _rightIndex = (parentIndex) => this._leftIndex(parentIndex) + 1;
 }
 
-const queue = new PriorityQueue((a, b) => a > b);
-queue.insert(1, 40, 33, 20, 10, 2, 30, 6, 11, 22, 5);
+// const queue = new PriorityQueue((a, b) => a < b);
+// queue.insert(1, 40, 33, 20, 10, 2, 30, 6, 11, 22, 5);
+
+const queue = new PriorityQueue((a, b) => a[1] > b[1]);
+queue.insert(
+  ["a", 0],
+  ["b", 5],
+  ["c", 10],
+  ["d", 2],
+  ["e", 12],
+  ["f", 1],
+  ["g", 3],
+  ["h", 4]
+);
 
 while (!queue.isEmpty()) {
   console.log(queue.pop());
