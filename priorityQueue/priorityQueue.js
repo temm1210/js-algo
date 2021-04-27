@@ -36,10 +36,6 @@ class PriorityQueue {
         minDataIndex = rightIndex;
       }
 
-      // if (this._heap[currentIndex] <= this._heap[minDataIndex]) {
-      //   break;
-      // }
-
       this._swap(minDataIndex, currentIndex);
 
       currentIndex = minDataIndex;
