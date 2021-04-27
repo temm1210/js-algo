@@ -41,15 +41,15 @@ class PriorityQueue {
     let currentIndex = 0;
 
     while (
-      this._heap[currentIndex] >= this._heap[this._leftIndex(currentIndex)] ||
-      this._heap[currentIndex] >= this._heap[this._rightIndex(currentIndex)]
+      this._compare(this._leftIndex(currentIndex), currentIndex) ||
+      this._compare(this._rightIndex(currentIndex), currentIndex)
     ) {
       let minDataIndex;
 
       const leftIndex = this._leftIndex(currentIndex);
       const rightIndex = this._rightIndex(currentIndex);
 
-      if (this._heap[leftIndex] <= this._heap[rightIndex]) {
+      if (this._compare(leftIndex, rightIndex)) {
         minDataIndex = leftIndex;
       } else {
         minDataIndex = rightIndex;
@@ -86,7 +86,7 @@ class PriorityQueue {
   _rightIndex = (parentIndex) => this._leftIndex(parentIndex) + 1;
 }
 
-const queue = new PriorityQueue();
+const queue = new PriorityQueue((a, b) => a > b);
 queue.insert(1, 40, 33, 20, 10, 2, 30, 6, 11, 22, 5);
 
 while (!queue.isEmpty()) {
