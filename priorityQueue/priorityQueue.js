@@ -37,8 +37,6 @@ class PriorityQueue {
     return popedData;
   };
 
-  replace = (targetKey, changedData) => {};
-
   // 새로들어온 데이터를 아래로 끌어내리면서 heapify
   _heapifyDown = () => {
     let currentIndex = 0;
@@ -94,21 +92,23 @@ class PriorityQueue {
   _rightIndex = (parentIndex) => this._leftIndex(parentIndex) + 1;
 }
 
+module.exports = PriorityQueue;
+
 // const queue = new PriorityQueue((a, b) => a < b);
 // queue.insert(1, 40, 33, 20, 10, 2, 30, 6, 11, 22, 5);
 
-const queue = new PriorityQueue((a, b) => a[1] > b[1]);
-queue.insert(
-  ["a", 0],
-  ["b", 5],
-  ["c", 10],
-  ["d", 2],
-  ["e", 12],
-  ["f", 1],
-  ["g", 3],
-  ["h", 4]
-);
+// const queue = new PriorityQueue((a, b) => a[1] > b[1]);
+// queue.insert(
+//   ["a", 0],
+//   ["b", 5],
+//   ["c", 10],
+//   ["d", 2],
+//   ["e", 12],
+//   ["f", 1],
+//   ["g", 3],
+//   ["h", 4]
+// );
 
-while (!queue.isEmpty()) {
-  console.log(queue.pop());
-}
+// while (!queue.isEmpty()) {
+//   console.log(queue.pop());
+// }
