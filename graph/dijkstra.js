@@ -13,7 +13,7 @@ const graph = {
 function factoryPriorityQueue(data, comparator) {
   const priorityQueue = new PriorityQueue(comparator);
 
-  priorityQueue.insert(...data);
+  priorityQueue.insert(data);
   return priorityQueue;
 }
 
@@ -30,5 +30,3 @@ function convertGraphToArray(graph, startNode) {
 
   return extractedArrayFromGraphNodeKeys;
 }
-
-dijkstra(graph, "A");
