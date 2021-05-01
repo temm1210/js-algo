@@ -18,15 +18,14 @@ function factoryPriorityQueue(data, comparator) {
 }
 
 // 그래프를 배열화
-function convertGraphToArray(graph, startNode) {
-  const mapStartNodeToZero = (startPoint) => (point) => {
-    if (point === startPoint) return [point, 0];
-    else return [point, Infinity];
-  };
-
-  const extractedArrayFromGraphNodeKeys = Object.keys(graph).map(
-    mapStartNodeToZero(startNode)
+function convertGraphToObject(graph) {
+  const initObjectFromGraphNodeKeys = Object.keys(graph).reduce(
+    (prev, curr) => {
+      const obj = { [curr]: Infinity };
+      return { ...prev, ...obj };
+    },
+    {}
   );
 
-  return extractedArrayFromGraphNodeKeys;
+  return initObjectFromGraphNodeKeys;
 }
