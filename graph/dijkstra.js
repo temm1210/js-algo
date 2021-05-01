@@ -16,3 +16,19 @@ function factoryPriorityQueue(data, comparator) {
   priorityQueue.insert(...data);
   return priorityQueue;
 }
+
+// 그래프를 배열화
+function convertGraphToArray(graph, startNode) {
+  const mapStartNodeToZero = (startPoint) => (point) => {
+    if (point === startPoint) return [point, 0];
+    else return [point, Infinity];
+  };
+
+  const extractedArrayFromGraphNodeKeys = Object.keys(graph).map(
+    mapStartNodeToZero(startNode)
+  );
+
+  return extractedArrayFromGraphNodeKeys;
+}
+
+dijkstra(graph, "A");
