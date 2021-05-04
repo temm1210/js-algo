@@ -41,14 +41,20 @@ function dijkstra(graph, startNode) {
   // 시작점에서 다음노드까지 거리를 저장한 큐
   const priorityQueue = factoryPriorityQueue(
     [startNode, graphObject[startNode]],
-    (a, b) => a[1] > b[1]
+    (a, b) => a[1] < b[1]
   );
+
+  // console.log("graphObject:", graphObject);
 
   while (!priorityQueue.isEmpty()) {
     // 우선순위큐의 가장 작은값이 나옴
     const [node, weight] = priorityQueue.pop();
 
-    Object.keys(graph[node]).map((adjacentNode) => {
+    // 우선순위큐 사용의 장점(우선순위 큐에 graphObject보다 큰 거리값이 들어가 있다면 뒤의 계산과정 불필요)
+    // 최소거리를 계산하는게목적(그리디)
+    if (graphObject[node] < weight) continue;
+
+    Object.keys(graph[node]).forEach((adjacentNode) => {
       // 인접노드 거리계산
       const newDistance = graph[node][adjacentNode] + weight;
 
