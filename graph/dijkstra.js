@@ -17,7 +17,7 @@ function factoryPriorityQueue(data, comparator) {
   return priorityQueue;
 }
 
-// 그래프를 배열화
+// 그래프를 객체화
 function convertGraphToObject(graph) {
   const initObjectFromGraphNodeKeys = Object.keys(graph).reduce(
     (prev, curr) => {
