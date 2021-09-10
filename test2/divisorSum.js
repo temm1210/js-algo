@@ -5,7 +5,7 @@ function solution(left, right) {
     // 1과 자기자신은 무조건 포함
     let divisor = target === 1 ? 1 : 2;
 
-    for (let j = 2; j < target; j++) {
+    for (let j = 2; j < target / 2; j++) {
       if (target % j === 0) {
         divisor++;
       }
@@ -18,4 +18,4 @@ function solution(left, right) {
   return sum;
 }
 
-console.log(solution(1, 2));
+console.log(solution(13, 17));
