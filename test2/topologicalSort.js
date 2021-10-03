@@ -6,17 +6,12 @@ class PriorityQueue {
     this._comparator = comparator;
   }
 
-  insert(data, order) {
+  insert(data) {
     // 숫자 0이 false로 판단되기때문에 !data or !order형식으로 사용X
-    if (
-      data === null ||
-      data === undefined ||
-      order === null ||
-      order === undefined
-    ) {
-      throw Error("data와 order 둘다 필수 값 입니다.");
+    if (data === null || data === undefined) {
+      throw Error("data는 필수 값 입니다.");
     }
-    this._push(data, order);
+    this._push(data);
     this._heapifyUp(this._lastIndex());
   }
 
@@ -31,8 +26,8 @@ class PriorityQueue {
     return this._data.length;
   }
 
-  _push(data, order) {
-    return this._data.push({ data, order });
+  _push(data) {
+    return this._data.push(data);
   }
   _shift() {
     return this._data.shift();
@@ -40,54 +35,43 @@ class PriorityQueue {
   _heapifyUp(currentIndex) {
     if (currentIndex <= 0) return;
 
-    const { order: currentOrder } = this._getData(currentIndex);
-    const parent = this._calcParentFromComparator(currentIndex);
+    const current = this._data[currentIndex];
+    const parentIndex = this._getParentIndex(currentIndex);
+    const parent = this._data[parentIndex];
 
-    if (this._comparator(currentOrder, parent.order)) {
-      this._swap(currentIndex, parent.index);
-      this._heapifyUp(parent.index);
+    if (this._comparator(current, parent)) {
+      this._swap(currentIndex, parentIndex);
+      this._heapifyUp(parentIndex);
     }
   }
 
   _heapifyDown(currentIndex) {
     if (currentIndex >= this._lastIndex()) return;
 
-    const { order: currentOrder } = this._getData(currentIndex);
+    const current = this._data[currentIndex];
     const child = this._calcChildFromComparator(currentIndex);
 
-    if (this._comparator(child.order, currentOrder)) {
+    if (!child) return;
+
+    if (this._comparator(child.data, current)) {
       this._swap(currentIndex, child.index);
       this._heapifyDown(child.index);
     }
   }
 
-  _calcParentFromComparator(index) {
-    const parentIndex = this._getParentIndex(index);
-    const parent = this._getData(parentIndex);
-
-    if (!parent) return null;
-    return { order: parent.order, index: parentIndex };
-  }
   _calcChildFromComparator(index) {
     const { leftChildIndex, rightChildIndex } = this._getChildrenIndex(index);
 
-    const leftChild = this._getData(leftChildIndex);
-    const rightChild = this._getData(rightChildIndex);
+    const leftChild = this._data[leftChildIndex];
+    const rightChild = this._data[rightChildIndex];
 
     if (leftChild && rightChild) {
-      return this._comparator(leftChild.order, rightChild.order)
-        ? { order: leftChild.order, index: leftChildIndex }
-        : { order: rightChild.order, index: rightChildIndex };
+      return this._comparator(leftChild, rightChild)
+        ? { data: leftChild, index: leftChildIndex }
+        : { data: rightChild, index: rightChildIndex };
     } else if (leftChild) {
-      return { order: leftChild.order, index: leftChildIndex };
+      return { data: leftChild, index: leftChildIndex };
     } else return null;
-  }
-
-  _getData(index) {
-    const data = this._data[index];
-
-    if (!data) return null;
-    return { data: data.data, order: data.order };
   }
 
   _getChildrenIndex(index) {
