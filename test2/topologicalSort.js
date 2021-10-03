@@ -93,3 +93,90 @@ class PriorityQueue {
     ];
   }
 }
+
+// 위상정렬 문제
+function solution(data, orders) {
+  const questions = Array.from(Array(data).keys()).map((x) => x + 1);
+
+  // 우선순위가 낮은 데이터들을 root에 배치
+  // 선행조건이 해결된 순위가 같다면 문제의 난이도 순으로 배치
+  const MinPriorityQueue = new PriorityQueue((a, b) => {
+    if (a.prerequisite === b.prerequisite) return a.question < b.question;
+    else return a.prerequisite < b.prerequisite;
+  });
+
+  const graph = {};
+
+  questions.forEach((question) => {
+    graph[question] = { prerequisite: 0, nextQuestion: [] };
+  });
+  orders.forEach((order) => {
+    graph[order[1]] = {
+      ...graph[order[1]],
+      prerequisite: graph[order[1]].prerequisite + 1,
+    };
+    graph[order[0]] = {
+      ...graph[order[0]],
+      nextQuestion: [...graph[order[0]].nextQuestion, order[1]],
+    };
+  });
+
+  const result = [];
+
+  Object.keys(graph).forEach((question) => {
+    // 선행조건이 모두 해결되었거나 없을때
+    if (graph[question].prerequisite === 0) {
+      const numberQuestion = +question;
+
+      // 우선순위의 첫번째 기준은 선행조건
+      // 두번째 순위의 기준은 문제의 난이도
+      MinPriorityQueue.insert({
+        question: numberQuestion,
+        prerequisite: graph[question].prerequisite,
+      });
+    }
+  });
+
+  // 우선순위큐를 다음노드 방문할 큐로 활용
+  while (MinPriorityQueue.length()) {
+    const { question } = MinPriorityQueue.pop();
+    // 해결된 문제는 결과에 반영
+    result.push(question);
+    const nextQuestions = graph[question].nextQuestion;
+
+    nextQuestions.forEach((question) => {
+      graph[question].prerequisite--;
+      // 선행조건이 모두 완료되었다면
+      if (graph[question].prerequisite === 0) {
+        MinPriorityQueue.insert({
+          question,
+          prerequisite: graph[question].prerequisite,
+        });
+      }
+    });
+  }
+
+  return result;
+}
+
+console.log(
+  solution(7, [
+    [1, 2],
+    [1, 4],
+    [4, 5],
+    [2, 3],
+    [5, 3],
+    [7, 5],
+    [6, 7],
+  ])
+);
+
+// solution(7, [
+//     [1, 2],
+//     [1, 4],
+//     [4, 5],
+//     [2, 3],
+//     [5, 3],
+//     [7, 5],
+//     [6, 7],
+//   ])
