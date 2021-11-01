@@ -1,11 +1,12 @@
 // dp
-// 최대의 높이로 쌓을수있는 벽돌
+// 벽돌 높이 쌓기
 
 const AREA = 0;
 const HEIGHT = 1;
 
 function solution(bricks) {
   const sortedDataByWeight = bricks.sort((a, b) => a[2] - b[2]);
+  // 계산편의를 위한 초기 설정
   sortedDataByWeight.unshift([0, 0, 0]);
 
   const brickCount = sortedDataByWeight.length;
@@ -14,8 +15,8 @@ function solution(bricks) {
   for (let i = 1; i < brickCount; i++) {
     const currBrick = sortedDataByWeight[i];
     const currBrickArea = currBrick[AREA];
-    let height = 0;
 
+    let height = 0;
     for (let j = 0; j < i; j++) {
       const prevBrick = sortedDataByWeight[j];
       const prevBrickArea = prevBrick[AREA];
@@ -27,6 +28,8 @@ function solution(bricks) {
     }
 
     maxHeightArr[i] = height;
+
+    console.log(maxHeightArr);
   }
 
   return Math.max(...maxHeightArr);
