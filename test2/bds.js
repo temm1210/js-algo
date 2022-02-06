@@ -22,6 +22,8 @@ function bfs(graph, startNode) {
 
     if (visitedQueue.includes(node)) continue;
     visitedQueue.push(node);
+
+    if (!graph[node]) break;
     graph[node].sort((a, b) => a - b);
     nextVisitQueue.push(...graph[node]);
   }
@@ -36,7 +38,10 @@ function dfs(graph, startNode) {
     const node = nextVisitStack.pop();
 
     if (visitedQueue.includes(node)) continue;
+
     visitedQueue.push(node);
+
+    if (!graph[node]) break;
     graph[node].sort((a, b) => b - a);
     nextVisitStack.push(...graph[node]);
   }
@@ -70,13 +75,7 @@ solution(nodes, S);
 // [3, 4],
 // [3, 1],
 
-// solution(
-//   [
-//     [5, 4],
-//     [5, 2],
-//     [1, 2],
-//     [3, 4],
-//     [3, 1],
-//   ],
-//   3
-// );
+// 1
+// [2, 3],
+
+// solution([[2, 3]], 1);
