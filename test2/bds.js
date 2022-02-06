@@ -46,7 +46,7 @@ function dfs(graph, startNode) {
 
 const fs = require("fs");
 const [n, ...input] = fs
-  .readFileSync("test2/test.txt")
+  .readFileSync("/dev/stdin")
   .toString()
   .trim()
   .split("\n");
